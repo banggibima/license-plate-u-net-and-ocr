@@ -1,0 +1,26 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Virtual environment
+venv/
+env/
+*.env
+
+# Model checkpoints and weights
+models/
+*.h5
+*.keras
+
+# Training history plots
+plots/
+
+# Predictions output
+predicts/
+
+# System files
+.DS_Store
+Thumbs.db
