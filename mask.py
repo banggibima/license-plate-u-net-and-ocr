@@ -6,14 +6,11 @@ from PIL import Image
 from tqdm import tqdm
 
 def create_mask_from_coco(coco_path, masks_dir):
-    """
-    Convert COCO-style annotations to multi-class masks.
-    Each character has its own category_id (1-36).
-    """
     os.makedirs(masks_dir, exist_ok=True)
     coco = COCO(coco_path)
 
-    for img_id in tqdm(coco.getImgIds(), desc=f"Processing {os.path.basename(os.path.dirname(coco_path))}"):
+    for img_id in tqdm(coco.getImgIds(), desc=f"{os.path.basename(os.path.dirname(coco_path))}"):
+
         img_info = coco.loadImgs(img_id)[0]
         file_name = img_info['file_name']
         height, width = img_info['height'], img_info['width']
@@ -24,13 +21,14 @@ def create_mask_from_coco(coco_path, masks_dir):
 
         for ann in anns:
             cat_id = ann['category_id']
+            
             if cat_id == 0:
-                continue  # skip general "char" label
+                continue
+            
             for seg in ann['segmentation']:
                 poly = np.array(seg).reshape((-1, 2)).astype(np.int32)
                 cv2.fillPoly(mask, [poly], color=cat_id)
 
-        # Save mask with same name but .png extension
         mask_path = os.path.join(masks_dir, os.path.splitext(file_name)[0] + '.png')
         Image.fromarray(mask).save(mask_path)
 
@@ -41,5 +39,4 @@ def process_all_splits(base_dir):
         masks_dir = os.path.join(base_dir, 'masks', split)
         create_mask_from_coco(coco_json, masks_dir)
 
-# Run it
 process_all_splits("dataset")
