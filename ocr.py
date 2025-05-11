@@ -34,4 +34,4 @@ def read_and_format_plate(image_path, output_dir='./formatted_images'):
         print("Unrecognized Plate Format. Raw OCR:", raw_text)
 
 # Example usage
-read_and_format_plate('./inverts/inverted_prediction_4_v1_v1.png')
+read_and_format_plate('./inverts/inverted_prediction_0_v1_v1.png')
