@@ -34,8 +34,6 @@ def preprocess_image(img_path, size=(256, 256)):
 
 # Result visualization
 def show_result(original, prediction, save_path=None):
-    pred_mask = (pred_mask > 0.5).astype(np.uint8)
-
     plt.figure(figsize=(10, 5))
     plt.subplot(1, 2, 1); plt.imshow(original); plt.title("Original Image")
     plt.subplot(1, 2, 2); plt.imshow(prediction.squeeze(), cmap='gray'); plt.title("Predicted Mask")

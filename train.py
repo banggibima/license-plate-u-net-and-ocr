@@ -41,8 +41,8 @@ def load_dataset(image_dir, mask_dir, size=(256, 256)):
 
     for img_path, msk_path in zip(image_paths, mask_paths):
         img = preprocess_image(load_image(img_path), size)
-        msk = cv2.resize(load_mask(msk_path), size, interpolation=cv2.INTER_NEAREST)
-        msk = np.expand_dims((msk > 127).astype(np.float32), axis=-1)
+        msk = cv2.resize(load_mask(msk_path), size)
+        msk = np.expand_dims((msk > 0).astype(np.float32), axis=-1)
         images.append(img)
         masks.append(msk)
 
@@ -184,7 +184,6 @@ print(f"Test Loss: {loss:.4f} | Accuracy: {acc:.4f} | IOU: {iou:.4f}")
 # PREDICT
 def save_prediction(pred_mask, index):
     base_name = f'prediction_{index}'
-    pred_mask = (pred_mask > 0.5).astype(np.uint8)
     prediction_path = get_versioned_path(PREDICT_DIR, base_name, 'png')
     
     plt.imsave(prediction_path, pred_mask.squeeze(), cmap='gray')
